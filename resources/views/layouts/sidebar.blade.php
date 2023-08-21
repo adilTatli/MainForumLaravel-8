@@ -8,7 +8,7 @@
                        class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="w-100 justify-content-between">
                             <img src="{{ $popular_post->getImage() }}" alt="" class="img-fluid float-left">
-                            <h5 class="mb-1">{{ $post->title }}</h5>
+                            <h5 class="mb-1">{{ $popular_post->title }}</h5>
                             <small>{{ $popular_post->getPostDate() }}</small>
                             <small>| <i class="fa fa-eye"></i> {{ $popular_post->views }}</small>
                         </div>

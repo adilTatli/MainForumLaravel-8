@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -19,12 +20,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('category', 'tags')->paginate(10);
+        $user = Auth::user();
+        $posts = $user->posts()->with('category', 'tags')->paginate(10);
         $date = $posts->map(function ($post) {
             return $post->created_at->diffForHumans();
         });
         $title = 'Статьи';
-        return view('user.posts.index', compact('posts', 'date', 'title'));
+        return view('user_panel.posts.index', compact('posts', 'date', 'title'));
     }
 
     /**
@@ -37,7 +39,7 @@ class PostController extends Controller
         $categories = Category::pluck('title', 'id')->all();
         $tags = Tag::pluck('title', 'id')->all();
         $title = 'Создание статьи';
-        return view('user.posts.create', compact('categories', 'tags', 'title'));
+        return view('user_panel.posts.create', compact('categories', 'tags', 'title'));
     }
 
     /**
@@ -59,6 +61,7 @@ class PostController extends Controller
         $data = $request->all();
 
         $data['thumbnail'] = Post::uploadImage($request);
+        $data['user_id'] = auth()->user()->id;
 
         $post = Post::create($data);
         $post->tags()->sync($request->tags);
@@ -78,7 +81,7 @@ class PostController extends Controller
         $categories = Category::pluck('title', 'id')->all();
         $tags = Tag::pluck('title', 'id')->all();
         $title = 'Редактирование статьи';
-        return view('user.posts.edit', compact('categories', 'tags', 'post', 'title'));
+        return view('user_panel.posts.edit', compact('categories', 'tags', 'post', 'title'));
     }
 
     /**
@@ -103,6 +106,10 @@ class PostController extends Controller
 
         if ($file = Post::uploadImage($request, $post->thumbnail)) {
             $data['thumbnail'] = $file;
+        }
+
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = $post->user_id;
         }
 
         $post->update($data);

@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AdministrationController as AdminAdministrationController;
 use App\Http\Controllers\CategoryController as MainCategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController as MainPostController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController as MainTagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +31,12 @@ Route::get('/article/{slug}', [MainPostController::class, 'show'])->name('posts.
 Route::get('/category/{slug}', [MainCategoryController::class, 'show'])->name('categories.single');
 Route::get('/tag/{slug}', [MainTagController::class, 'show'])->name('tags.single');
 
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+Route::get('/author/{id}', [MainPostController::class, 'postsAuthor'])->name('author.post');
+
+Route::post('/comments', [CommentController::class, 'storeOrReply'])->name('comments.storeOrReply');
+
 Route::prefix('admin')
     ->name('admin.')
     ->middleware('admin')
@@ -42,7 +50,7 @@ Route::prefix('admin')
 
 Route::prefix('user')
     ->name('user.')
-    ->middleware('user')
+    ->middleware('userPanel')
     ->group(function () {
         Route::get('/', [UserMainController::class, 'index'])->name('index');
         Route::resource('/posts', UserPostController::class);

@@ -11,7 +11,7 @@ class  MainController extends Controller
     public function index ()
     {
         $title = 'Главная';
-        return view('user.index', compact('title'));
+        return view('user_panel.index', compact('title'));
     }
 
 }

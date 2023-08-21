@@ -12952,6 +12952,10 @@ a:focus,
 .footer.wb .btn {
     color: rgba(255, 255, 255, 1) !important;
 }
+.market-header .form-inline .form-control.is-invalid{
+    border: 2px solid red;
+}
+
 /**************************************
 
     File Name: marketing.css

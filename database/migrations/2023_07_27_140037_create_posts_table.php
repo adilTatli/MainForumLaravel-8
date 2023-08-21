@@ -22,7 +22,10 @@ class CreatePostsTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->integer('views')->unsigned()->default(0);
             $table->string('thumbnail')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
         });
     }
 

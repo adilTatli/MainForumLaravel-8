@@ -46,6 +46,7 @@ mix.combine([
     'resources/assets/front/css/animate.css',
     'resources/assets/front/css/responsive.css',
     'resources/assets/front/css/colors.css',
+    'resources/assets/front/css/demo.css',
     'resources/assets/front/css/version/marketing.css',
 ], 'public/assets/front/css/front.css');
 

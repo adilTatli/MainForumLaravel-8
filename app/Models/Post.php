@@ -21,6 +21,7 @@ class Post extends Model
             'content',
             'category_id',
             'thumbnail',
+            'user_id',
         ];
 
     public function tags()
@@ -31,6 +32,16 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     /**
@@ -71,5 +82,10 @@ class Post extends Model
     public function getPostDate()
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('d F, Y');
+    }
+
+    public function scopeLike($query, $search)
+    {
+        return $query->where('title', 'LIKE', "%{$search}%");
     }
 }

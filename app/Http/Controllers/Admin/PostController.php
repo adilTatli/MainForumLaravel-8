@@ -59,6 +59,7 @@ class PostController extends Controller
         $data = $request->all();
 
         $data['thumbnail'] = Post::uploadImage($request);
+        $data['user_id'] = auth()->user()->id;
 
         $post = Post::create($data);
         $post->tags()->sync($request->tags);
@@ -103,6 +104,10 @@ class PostController extends Controller
 
         if ($file = Post::uploadImage($request, $post->thumbnail)) {
             $data['thumbnail'] = $file;
+        }
+
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = $post->user_id;
         }
 
         $post->update($data);
