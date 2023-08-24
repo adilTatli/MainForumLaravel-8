@@ -14,6 +14,11 @@
                     <li class="nav-item">
                         <div class="d-flex align-items-center ml-auto">
                             @auth
+                                @if (auth()->user()->is_admin)
+                                    <a class="nav-link" href="{{ route('admin.index') }}">Personal account</a>
+                                @else
+                                    <a class="nav-link" href="{{ route('user.index') }}">Personal account</a>
+                                @endif
                                 <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                             @else
                                 <a class="nav-link" href="{{ route('login.create') }}">Login</a>

@@ -28,6 +28,11 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        if (User::count() === 1) {
+            $user->is_admin = true;
+            $user->save();
+        }
+
         session()->flash('success', 'Регистрация пройдена');
         Auth::login($user);
         return redirect()->home();
